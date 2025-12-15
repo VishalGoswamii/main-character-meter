@@ -1,1 +1,4 @@
 project_id = "yatrugjplwgsqnehumcu"
+
+[functions.get-farcaster-profile]
+verify_jwt = false
