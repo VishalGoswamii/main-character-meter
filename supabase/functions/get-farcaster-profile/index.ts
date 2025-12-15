@@ -33,9 +33,9 @@ serve(async (req) => {
 
     console.log(`Fetching Farcaster profile for username: ${username}`);
 
-    // Fetch user by username from Neynar API
+    // Use Neynar's free v2/user/by_username endpoint
     const response = await fetch(
-      `https://api.neynar.com/v2/farcaster/user/search?q=${encodeURIComponent(username)}&limit=1`,
+      `https://api.neynar.com/v2/farcaster/user/by_username?username=${encodeURIComponent(username)}`,
       {
         headers: {
           'accept': 'application/json',
@@ -55,7 +55,7 @@ serve(async (req) => {
 
     const data = await response.json();
     
-    if (!data.result?.users || data.result.users.length === 0) {
+    if (!data.user) {
       console.log('No user found for username:', username);
       return new Response(
         JSON.stringify({ error: 'User not found' }), 
@@ -63,7 +63,7 @@ serve(async (req) => {
       );
     }
 
-    const user = data.result.users[0];
+    const user = data.user;
     
     console.log('Successfully fetched profile:', { fid: user.fid, username: user.username });
 
