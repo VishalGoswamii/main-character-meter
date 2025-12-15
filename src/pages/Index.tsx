@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface EnergyResult {
   mainCharacter: number;
@@ -13,6 +14,8 @@ interface EnergyResult {
   caption: string;
   fid: number;
   avatarUrl: string;
+  displayName?: string;
+  username?: string;
 }
 
 const captions = [
@@ -68,7 +71,7 @@ const Index = () => {
 
   const effectiveHandle = handle.trim() || (connected ? "farcaster" : "");
 
-  const onSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+  const onSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
     const value = effectiveHandle.trim();
 
@@ -93,11 +96,52 @@ const Index = () => {
     setIsSubmitting(true);
 
     try {
+      // Fetch real profile from Neynar via backend
+      const { data, error } = await supabase.functions.invoke('get-farcaster-profile', {
+        body: { username: value.replace(/^@/, "") }
+      });
+
+      if (error) {
+        console.error('Error fetching profile:', error);
+        toast({
+          title: "Failed to fetch profile",
+          description: "Could not connect to Farcaster. Try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (!data || data.error) {
+        toast({
+          title: "User not found",
+          description: data?.error || "This Farcaster user doesn't exist.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Generate deterministic metrics based on username
       const metrics = generateMetrics(value);
-      setResult(metrics);
+      
+      // Combine with real Farcaster data
+      setResult({
+        ...metrics,
+        fid: data.fid,
+        avatarUrl: data.pfp_url,
+        displayName: data.display_name,
+        username: data.username,
+      });
+      
       toast({
         title: "Main Character Energy calculated",
         description: "Screenshot this card and post it to your feed.",
+      });
+    } catch (err) {
+      console.error('Unexpected error:', err);
+      toast({
+        title: "Something went wrong",
+        description: "Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
@@ -115,7 +159,7 @@ const Index = () => {
     });
   };
 
-  const handleShare = async () => {
+  const handleShare = () => {
     if (!result || !effectiveHandle) {
       toast({
         title: "Nothing to share yet",
@@ -124,32 +168,26 @@ const Index = () => {
       return;
     }
 
-    const username = effectiveHandle.startsWith("@") ? effectiveHandle : `@${effectiveHandle}`;
+    const username = result.username || effectiveHandle.replace(/^@/, "");
 
     const shareText = [
-      `Main Character Energy scan for ${username}`,
       `Main Character Energy: ${result.mainCharacter}%`,
       `NPC Energy: ${result.npcEnergy}%`,
       `Plot Armor: ${result.plotArmor}`,
       "",
-      "Generated on Main Character Energy",
+      result.caption,
+      "",
+      `@${username} • FID: ${result.fid}`,
     ].join("\n");
 
-    try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(shareText);
-        toast({ title: "Copied for Farcaster", description: "Paste into your next cast and tag your friends." });
-      } else {
-        throw new Error("Clipboard API unavailable");
-      }
-    } catch (error) {
-      console.error(error);
-      toast({
-        title: "Could not copy",
-        description: "Select and copy the stats manually instead.",
-        variant: "destructive",
-      });
-    }
+    // Open Warpcast composer with prefilled text
+    const warpcastUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}`;
+    window.open(warpcastUrl, '_blank');
+    
+    toast({ 
+      title: "Opening Warpcast", 
+      description: "Confirm your cast in the new tab." 
+    });
   };
 
   const usernameForAvatar = effectiveHandle.replace(/^@/, "");
