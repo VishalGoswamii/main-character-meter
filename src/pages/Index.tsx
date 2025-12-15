@@ -230,7 +230,6 @@ const Index = () => {
               </div>
 
               <div className="flex flex-col items-start justify-end gap-3 text-sm text-muted-foreground">
-                <div className="mce-badge-soft">Made for screenshotting and casting.</div>
                 <div className="flex items-center gap-3 text-xs sm:text-sm">
                   <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                   <span>Zero data stored · Purely for fun</span>
@@ -330,9 +329,15 @@ const Index = () => {
                       : 'Hit "Scan vibes" to see whether you are main character coded or deep background lore.'}
                   </p>
 
-                  <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-                    <Button type="button" onClick={handleShare} size="sm" variant="default">
-                      Share this
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-4">
+                    <Button
+                      type="button"
+                      onClick={handleShare}
+                      size="lg"
+                      variant="hero"
+                      className="w-full sm:w-auto"
+                    >
+                      Share this scan
                     </Button>
                     <p className="text-[0.7rem] text-muted-foreground">
                       Tip: Screenshot this card and cast it.
