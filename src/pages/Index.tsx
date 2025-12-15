@@ -209,17 +209,17 @@ const Index = () => {
       <main className="flex flex-1 items-center justify-center px-4 py-8 sm:py-12">
         <section
           aria-labelledby="main-character-energy-heading"
-          className="w-full max-w-3xl transform-gpu transition-transform duration-500 ease-out hover:-translate-y-1"
+          className="w-full max-w-xl transform-gpu transition-transform duration-500 ease-out hover:-translate-y-1"
         >
           <Card className="mce-hero-card">
             <div className="mce-hero-orbit" aria-hidden="true" />
 
-            <CardHeader className="mce-hero-inner flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <CardHeader className="mce-hero-inner flex flex-col gap-4">
               <div className="space-y-3">
                 <p className="mce-metric-label">Farcaster Vibes Scanner</p>
                 <h1
                   id="main-character-energy-heading"
-                  className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl"
+                  className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl"
                 >
                   Drop your handle. Get your Main Character Energy.
                 </h1>
@@ -241,7 +241,7 @@ const Index = () => {
             <CardContent className="mce-hero-inner flex flex-col gap-8 pb-7 pt-2 sm:pb-8 sm:pt-0">
               <form
                 onSubmit={onSubmit}
-                className="flex flex-col gap-4 rounded-2xl border border-border/70 bg-background/40 p-4 backdrop-blur-sm sm:flex-row sm:items-end"
+                className="flex flex-col gap-4 rounded-2xl border border-border/70 bg-background/40 p-4 backdrop-blur-sm"
                 aria-label="Enter Farcaster username to calculate Main Character Energy"
               >
                 <div className="flex-1 space-y-2">
@@ -274,7 +274,7 @@ const Index = () => {
 
               <section
                 aria-label="Main Character Energy results"
-                className="grid gap-6 rounded-2xl border border-border/70 bg-background/40 p-4 sm:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] sm:p-5"
+                className="flex flex-col gap-4 rounded-2xl border border-border/70 bg-background/40 p-4 sm:p-5"
               >
                 <div className="flex flex-col gap-4 sm:gap-5">
                   <div className="flex items-center gap-4">
@@ -329,47 +329,13 @@ const Index = () => {
                       ? result.caption
                       : 'Hit "Scan vibes" to see whether you are main character coded or deep background lore.'}
                   </p>
-                </div>
 
-                <div className="flex flex-col justify-between gap-4 rounded-2xl border border-border/60 bg-secondary/40 p-4 text-sm shadow-inner">
-                  <div className="space-y-2">
-                    <p className="mce-metric-label">Cast-ready copy</p>
-                    <p className="text-xs text-muted-foreground">
-                      We will copy a plain-text summary you can paste straight into Farcaster.
-                    </p>
-                  </div>
-
-                  <div className="rounded-xl border border-border/50 bg-background/40 p-3 text-xs text-muted-foreground">
-                    <pre className="whitespace-pre-wrap break-words text-[0.7rem] leading-relaxed">
-                      {result ? (
-                        <>
-                          Main Character Energy scan for {" "}
-                          {effectiveHandle.startsWith("@")
-                            ? effectiveHandle
-                            : `@${effectiveHandle}`}
-                          {"\n"}
-                          Main Character Energy: {result.mainCharacter}%
-                          {"\n"}
-                          NPC Energy: {result.npcEnergy}%
-                          {"\n"}
-                          Plot Armor: {result.plotArmor}
-                          {"\n"}
-                          Scan your vibes: {window.location.origin + window.location.pathname}
-                          {"\n\n"}
-                          Generated on Main Character Energy
-                        </>
-                      ) : (
-                        "Preview will appear here after you run a scan."
-                      )}
-                    </pre>
-                  </div>
-
-                  <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                     <Button type="button" onClick={handleShare} size="sm" variant="default">
                       Share this
                     </Button>
                     <p className="text-[0.7rem] text-muted-foreground">
-                      Tip: Crop to the card for a clean, feed-friendly screenshot.
+                      Tip: Screenshot this card and cast it.
                     </p>
                   </div>
                 </div>
