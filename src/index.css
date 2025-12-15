@@ -2,95 +2,104 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Main Character Energy design system
+ * All colors are HSL and exposed as semantic tokens.
+ */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core surfaces */
+    --background: 249 35% 6%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 249 40% 10%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 249 40% 8%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Brand & accents */
+    --primary: 274 85% 70%; /* neon violet */
+    --primary-foreground: 249 35% 8%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 222 59% 18%;
+    --secondary-foreground: 210 40% 96%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 240 21% 18%;
+    --muted-foreground: 215 20% 72%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 193 92% 62%;
+    --accent-foreground: 222 47% 10%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* UI chrome */
+    --border: 240 21% 20%;
+    --input: 240 21% 20%;
+    --ring: 274 85% 70%;
 
-    --radius: 0.5rem;
+    --radius: 1.4rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Sidebar tokens (kept for shadcn compatibility) */
+    --sidebar-background: 249 35% 6%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 274 85% 70%;
+    --sidebar-primary-foreground: 249 35% 8%;
+    --sidebar-accent: 240 21% 14%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 240 21% 20%;
+    --sidebar-ring: 193 92% 62%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Main Character Energy custom tokens */
+    --mce-hero-gradient: 274 85% 70%;
+    --mce-hero-gradient-soft: 193 92% 62%;
+    --mce-bg-gradient-from: 249 35% 4%;
+    --mce-bg-gradient-to: 264 44% 10%;
+    --mce-glow: 274 85% 70%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    /* Keep dark mode close to root for now for parity */
+    --background: 249 35% 4%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 249 40% 10%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 249 40% 10%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 274 85% 70%;
+    --primary-foreground: 249 35% 8%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 222 59% 20%;
+    --secondary-foreground: 210 40% 96%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 240 21% 18%;
+    --muted-foreground: 215 20% 72%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 193 92% 62%;
+    --accent-foreground: 222 47% 10%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 240 21% 20%;
+    --input: 240 21% 20%;
+    --ring: 274 85% 70%;
+
+    --sidebar-background: 249 35% 4%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 274 85% 70%;
+    --sidebar-primary-foreground: 249 35% 8%;
+    --sidebar-accent: 240 21% 14%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 240 21% 20%;
+    --sidebar-ring: 193 92% 62%;
+
+    --mce-bg-gradient-from: 249 35% 2%;
+    --mce-bg-gradient-to: 264 44% 12%;
   }
 }
 
@@ -100,6 +109,55 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply min-h-screen bg-background text-foreground antialiased;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+    background-image: radial-gradient(circle at top left, hsl(var(--mce-bg-gradient-to) / 0.6), transparent 55%),
+      radial-gradient(circle at bottom right, hsl(var(--mce-bg-gradient-to) / 0.6), transparent 55%),
+      radial-gradient(circle at top, hsl(var(--mce-bg-gradient-from)), hsl(var(--mce-bg-gradient-to)));
+    background-attachment: fixed;
+  }
+
+  main {
+    @apply text-base;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+@layer utilities {
+  .mce-hero-card {
+    @apply relative overflow-hidden rounded-[1.8rem] border border-border/70 bg-card/80 shadow-mce backdrop-blur-xl;
+  }
+
+  .mce-hero-orbit {
+    @apply pointer-events-none absolute -inset-40 rounded-[3rem];
+    background-image: radial-gradient(circle at top, hsl(var(--mce-hero-gradient-soft) / 0.18), transparent 55%),
+      radial-gradient(circle at bottom, hsl(var(--mce-hero-gradient) / 0.32), transparent 55%);
+    animation: mce-orbit 16s ease-in-out infinite alternate;
+  }
+
+  .mce-hero-inner {
+    @apply relative z-10;
+  }
+
+  .mce-metric-label {
+    @apply text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground;
+  }
+
+  .mce-metric-value {
+    @apply text-4xl font-semibold leading-none sm:text-5xl;
+  }
+
+  .mce-badge-soft {
+    @apply rounded-full border border-border/70 bg-background/60 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur;
+  }
+
+  .mce-caption {
+    @apply text-sm text-muted-foreground;
   }
 }

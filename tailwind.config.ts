@@ -63,6 +63,13 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      fontFamily: {
+        sans: ["system-ui", "-apple-system", "BlinkMacSystemFont", "SF Pro Text", "Segoe UI", "sans-serif"],
+        display: ["system-ui", "-apple-system", "BlinkMacSystemFont", "SF Pro Display", "Segoe UI", "sans-serif"],
+      },
+      boxShadow: {
+        mce: "0 26px 80px -40px hsl(var(--mce-glow) / 0.8)",
+      },
       keyframes: {
         "accordion-down": {
           from: {
@@ -80,10 +87,16 @@ export default {
             height: "0",
           },
         },
+        "mce-orbit": {
+          "0%": { transform: "translate3d(0,0,0) scale(1)" },
+          "50%": { transform: "translate3d(8px,-10px,0) scale(1.03)" },
+          "100%": { transform: "translate3d(-10px,6px,0) scale(1.04)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "mce-orbit": "mce-orbit 18s ease-in-out infinite alternate",
       },
     },
   },
