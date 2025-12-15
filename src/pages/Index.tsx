@@ -44,13 +44,16 @@ function generateMetrics(handle: string): EnergyResult {
   const npcEnergy = Math.max(0, Math.min(100, npcEnergyRaw));
 
   const armorSeed = (hash >> 7) % 100;
-  const plotArmor: EnergyResult["plotArmor"] = armorSeed > 70 ? "High" : armorSeed > 40 ? "Medium" : "Low";
+  const plotArmor: EnergyResult["plotArmor"] =
+    armorSeed > 70 ? "High" : armorSeed > 40 ? "Medium" : "Low";
 
   const caption = captions[hash % captions.length];
 
   const fid = (hash % 900000) + 10000;
 
-  const avatarUrl = `https://api.dicebear.com/9.x/thumbs/svg?seed=${encodeURIComponent(base.toLowerCase())}`;
+  const avatarUrl = `https://api.dicebear.com/9.x/thumbs/svg?seed=${encodeURIComponent(
+    base.toLowerCase(),
+  )}`;
 
   return {
     mainCharacter,
@@ -64,12 +67,11 @@ function generateMetrics(handle: string): EnergyResult {
 
 const Index = () => {
   const [handle, setHandle] = useState<string>("");
-  const [connected, setConnected] = useState<boolean>(false);
   const [result, setResult] = useState<EnergyResult | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const effectiveHandle = handle.trim() || (connected ? "farcaster" : "");
+  const effectiveHandle = handle.trim();
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -78,7 +80,7 @@ const Index = () => {
     if (!value) {
       toast({
         title: "Handle required",
-        description: "Type a Farcaster username or use the connect option.",
+        description: "Type a Farcaster username.",
         variant: "destructive",
       });
       return;
@@ -97,12 +99,15 @@ const Index = () => {
 
     try {
       // Fetch real profile from Neynar via backend
-      const { data, error } = await supabase.functions.invoke('get-farcaster-profile', {
-        body: { username: value.replace(/^@/, "") }
-      });
+      const { data, error } = await supabase.functions.invoke(
+        "get-farcaster-profile",
+        {
+          body: { username: value.replace(/^@/, "") },
+        },
+      );
 
       if (error) {
-        console.error('Error fetching profile:', error);
+        console.error("Error fetching profile:", error);
         toast({
           title: "Failed to fetch profile",
           description: "Could not connect to Farcaster. Try again.",
@@ -111,10 +116,11 @@ const Index = () => {
         return;
       }
 
-      if (!data || data.error) {
+      if (!data || (data as any).error) {
         toast({
           title: "User not found",
-          description: data?.error || "This Farcaster user doesn't exist.",
+          description: (data as any)?.error ||
+            "This Farcaster user doesn't exist.",
           variant: "destructive",
         });
         return;
@@ -122,22 +128,24 @@ const Index = () => {
 
       // Generate deterministic metrics based on username
       const metrics = generateMetrics(value);
-      
+
+      const profile = data as any;
+
       // Combine with real Farcaster data
       setResult({
         ...metrics,
-        fid: data.fid,
-        avatarUrl: data.pfp_url,
-        displayName: data.display_name,
-        username: data.username,
+        fid: profile.fid,
+        avatarUrl: profile.pfp_url,
+        displayName: profile.display_name,
+        username: profile.username,
       });
-      
+
       toast({
         title: "Main Character Energy calculated",
         description: "Screenshot this card and post it to your feed.",
       });
     } catch (err) {
-      console.error('Unexpected error:', err);
+      console.error("Unexpected error:", err);
       toast({
         title: "Something went wrong",
         description: "Please try again.",
@@ -146,17 +154,6 @@ const Index = () => {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleConnectClick = () => {
-    setConnected(true);
-    if (!handle) {
-      setHandle("@farcaster");
-    }
-    toast({
-      title: "Mock Farcaster connect enabled",
-      description: "This demo version simulates a Farcaster connection for now.",
-    });
   };
 
   const handleShare = () => {
@@ -169,6 +166,7 @@ const Index = () => {
     }
 
     const username = result.username || effectiveHandle.replace(/^@/, "");
+    const appUrl = window.location.origin + window.location.pathname;
 
     const shareText = [
       `Main Character Energy: ${result.mainCharacter}%`,
@@ -178,15 +176,19 @@ const Index = () => {
       result.caption,
       "",
       `@${username} • FID: ${result.fid}`,
+      "",
+      `Scan your vibes: ${appUrl}`,
     ].join("\n");
 
-    // Open Warpcast composer with prefilled text
-    const warpcastUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}`;
-    window.open(warpcastUrl, '_blank');
-    
-    toast({ 
-      title: "Opening Warpcast", 
-      description: "Confirm your cast in the new tab." 
+    // Open Warpcast composer with prefilled text and app link
+    const warpcastUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(
+      shareText,
+    )}`;
+    window.open(warpcastUrl, "_blank");
+
+    toast({
+      title: "Opening Warpcast",
+      description: "Confirm your cast in the new tab.",
     });
   };
 
@@ -222,7 +224,8 @@ const Index = () => {
                   Drop your handle. Get your Main Character Energy.
                 </h1>
                 <p className="max-w-xl text-sm text-muted-foreground sm:text-base">
-                  Not serious. Not on-chain. Just a vibe check for how much main-character energy you are radiating today.
+                  Not serious. Not on-chain. Just a vibe check for how much main-character
+                  energy you are radiating today.
                 </p>
               </div>
 
@@ -250,7 +253,13 @@ const Index = () => {
                       autoComplete="off"
                       placeholder="yourhandle"
                       value={handle.replace(/^@/, "")}
-                      onChange={(event) => setHandle(event.target.value ? `@${event.target.value.replace(/^@/, "")}` : "")}
+                      onChange={(event) =>
+                        setHandle(
+                          event.target.value
+                            ? `@${event.target.value.replace(/^@/, "")}`
+                            : "",
+                        )
+                      }
                       className="flex-1 bg-background/60 text-base"
                     />
                   </div>
@@ -259,14 +268,6 @@ const Index = () => {
                 <div className="flex flex-col gap-2 sm:w-48">
                   <Button type="submit" variant="hero" size="lg" disabled={isSubmitting}>
                     {isSubmitting ? "Calculating" : "Scan vibes"}
-                  </Button>
-                  <Button
-                    type="button"
-                    variant={connected ? "secondary" : "outline"}
-                    size="sm"
-                    onClick={handleConnectClick}
-                  >
-                    {connected ? "Farcaster connected" : "Mock connect with Farcaster"}
                   </Button>
                 </div>
               </form>
@@ -279,7 +280,10 @@ const Index = () => {
                   <div className="flex items-center gap-4">
                     <Avatar className="h-12 w-12 rounded-2xl border border-border/70 bg-background/60">
                       {usernameForAvatar ? (
-                        <AvatarImage src={result?.avatarUrl} alt={`Avatar for ${usernameForAvatar}`} />
+                        <AvatarImage
+                          src={result?.avatarUrl}
+                          alt={`Avatar for ${usernameForAvatar}`}
+                        />
                       ) : null}
                       <AvatarFallback className="rounded-2xl text-xs uppercase">
                         {usernameForAvatar ? usernameForAvatar.slice(0, 2) : "MC"}
@@ -287,7 +291,11 @@ const Index = () => {
                     </Avatar>
                     <div className="min-w-0">
                       <p className="truncate text-sm font-medium">
-                        {effectiveHandle ? (effectiveHandle.startsWith("@") ? effectiveHandle : `@${effectiveHandle}`) : "@yourhandle"}
+                        {effectiveHandle
+                          ? effectiveHandle.startsWith("@")
+                            ? effectiveHandle
+                            : `@${effectiveHandle}`
+                          : "@yourhandle"}
                       </p>
                       <p className="text-xs text-muted-foreground">
                         Farcaster FID: {result ? result.fid : "••••••"}
@@ -304,18 +312,22 @@ const Index = () => {
                     </div>
                     <div className="space-y-2">
                       <p className="mce-metric-label">NPC Energy</p>
-                      <p className="mce-metric-value">{result ? `${result.npcEnergy}%` : "--%"}</p>
+                      <p className="mce-metric-value">
+                        {result ? `${result.npcEnergy}%` : "--%"}
+                      </p>
                     </div>
                     <div className="space-y-2">
                       <p className="mce-metric-label">Plot Armor</p>
-                      <p className="mce-metric-value">{result ? result.plotArmor : "–"}</p>
+                      <p className="mce-metric-value">
+                        {result ? result.plotArmor : "–"}
+                      </p>
                     </div>
                   </div>
 
                   <p className="mce-caption">
                     {result
                       ? result.caption
-                      : "Hit \"Scan vibes\" to see whether you are main character coded or deep background lore."}
+                      : 'Hit "Scan vibes" to see whether you are main character coded or deep background lore.'}
                   </p>
                 </div>
 
@@ -331,15 +343,18 @@ const Index = () => {
                     <pre className="whitespace-pre-wrap break-words text-[0.7rem] leading-relaxed">
                       {result ? (
                         <>
-                          Main Character Energy scan for
-                          {" "}
-                          {effectiveHandle.startsWith("@") ? effectiveHandle : `@${effectiveHandle}`}
+                          Main Character Energy scan for {" "}
+                          {effectiveHandle.startsWith("@")
+                            ? effectiveHandle
+                            : `@${effectiveHandle}`}
                           {"\n"}
                           Main Character Energy: {result.mainCharacter}%
                           {"\n"}
                           NPC Energy: {result.npcEnergy}%
                           {"\n"}
                           Plot Armor: {result.plotArmor}
+                          {"\n"}
+                          Scan your vibes: {window.location.origin + window.location.pathname}
                           {"\n\n"}
                           Generated on Main Character Energy
                         </>
