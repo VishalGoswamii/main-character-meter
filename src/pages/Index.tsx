@@ -98,7 +98,6 @@ const Index = () => {
     setIsSubmitting(true);
 
     try {
-      // Fetch real profile from Neynar via backend
       const { data, error } = await supabase.functions.invoke(
         "get-farcaster-profile",
         {
@@ -126,12 +125,9 @@ const Index = () => {
         return;
       }
 
-      // Generate deterministic metrics based on username
       const metrics = generateMetrics(value);
-
       const profile = data as any;
 
-      // Combine with real Farcaster data
       setResult({
         ...metrics,
         fid: profile.fid,
@@ -180,7 +176,6 @@ const Index = () => {
       `Scan your vibes: ${appUrl}`,
     ].join("\n");
 
-    // Open Warpcast composer with prefilled text and app link
     const warpcastUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(
       shareText,
     )}`;
@@ -339,9 +334,6 @@ const Index = () => {
                     >
                       Share this scan
                     </Button>
-                    <p className="text-[0.7rem] text-muted-foreground">
-                      Tip: Screenshot this card and cast it.
-                    </p>
                   </div>
                 </div>
               </section>
