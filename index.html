@@ -9,7 +9,9 @@
       content="Generate playful Main Character Energy, NPC Energy, and Plot Armor scores for any Farcaster handle."
     />
     <link rel="canonical" href="https://main-character-meter.vercel.app/" />
- 
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#000000" />
+
     <meta property="og:title" content="Main Character Energy" />
     <meta
       property="og:description"
@@ -19,7 +21,7 @@
     <meta property="og:url" content="https://main-character-meter.vercel.app/" />
     <meta property="og:image" content="https://main-character-meter.vercel.app/image.png" />
     <link rel="icon" href="https://main-character-meter.vercel.app/icon.png" type="image/png" />
- 
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Main Character Energy" />
     <meta
@@ -28,15 +30,27 @@
     />
     <meta name="twitter:site" content="@farcaster" />
     <meta name="twitter:image" content="https://main-character-meter.vercel.app/image.png" />
- 
+
     <!-- Farcaster Frame vNext pointing at backend endpoint -->
     <meta name="fc:frame" content="vNext" />
     <meta name="fc:frame:image" content="https://main-character-meter.vercel.app/image.png" />
     <meta name="fc:frame:button:1" content="Scan your vibes" />
     <meta name="fc:frame:button:1:action" content="post" />
-    <meta name="fc:frame:post_url" content="https://yatrugjplwgsqnehumcu.functions.supabase.co/frame-main-character" />
+    <meta
+      name="fc:frame:post_url"
+      content="https://yatrugjplwgsqnehumcu.functions.supabase.co/frame-main-character"
+    />
     <meta name="fc:frame:input:text" content="Enter your Farcaster handle" />
- 
+
+    <!-- iOS PWA / splash configuration -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-icon" href="https://main-character-meter.vercel.app/icon.png" />
+    <link
+      rel="apple-touch-startup-image"
+      href="https://main-character-meter.vercel.app/splash.png"
+    />
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
