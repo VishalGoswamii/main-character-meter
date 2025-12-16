@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { sdk } from "@farcaster/frame-sdk";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -70,6 +71,22 @@ const Index = () => {
   const [result, setResult] = useState<EnergyResult | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        await sdk.actions.ready();
+        console.log("Farcaster Frame SDK ready");
+      } catch (err) {
+        console.log("Not running inside Farcaster Frame SDK context", err);
+      }
+    };
+
+    // Only run on client
+    if (typeof window !== "undefined") {
+      void init();
+    }
+  }, []);
 
   const effectiveHandle = handle.trim();
 
