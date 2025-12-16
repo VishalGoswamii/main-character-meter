@@ -71,7 +71,8 @@ serve(async (req) => {
   }
 
   const url = new URL(req.url);
-  const appUrl = url.origin; // https://<project>.functions.supabase.co
+  // Use the public functions domain for Farcaster frame callbacks
+  const appUrl = "https://yatrugjplwgsqnehumcu.functions.supabase.co";
   const imageUrl = "https://lovable.dev/opengraph-image-p98pqg.png";
 
   try {
