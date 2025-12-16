@@ -66,6 +66,8 @@ function generateMetrics(handle: string): EnergyResult {
   };
 }
 
+const APP_URL = "https://main-character-meter.vercel.app";
+
 const Index = () => {
   const [handle, setHandle] = useState<string>("");
   const [result, setResult] = useState<EnergyResult | null>(null);
@@ -179,7 +181,7 @@ const Index = () => {
     }
 
     const username = result.username || effectiveHandle.replace(/^@/, "");
-    const appUrl = window.location.origin + window.location.pathname;
+    const appUrl = APP_URL;
 
     const shareText = [
       `Main Character Energy: ${result.mainCharacter}%`,
