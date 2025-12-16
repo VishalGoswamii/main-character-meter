@@ -1,0 +1,16 @@
+{
+  "name": "Main Character Energy",
+  "short_name": "MC Energy",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "description": "Drop a Farcaster username and get screenshot-ready Main Character Energy stats.",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
