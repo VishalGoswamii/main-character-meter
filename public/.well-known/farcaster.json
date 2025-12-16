@@ -7,6 +7,6 @@
   "version": "vNext",
   "name": "Main Character Meter",
   "iconUrl": "https://main-character-meter.vercel.app/icon.png",
-  "homeframeUrl": "https://main-character-meter.vercel.app/",
+  "homeframeUrl": "https://yatrugjplwgsqnehumcu.functions.supabase.co/frame-main-character",
   "tabs": []
 }
