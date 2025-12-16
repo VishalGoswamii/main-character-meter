@@ -236,8 +236,8 @@ const Index = () => {
                   Drop your handle. Get your Main Character Energy.
                 </h1>
                 <p className="max-w-xl text-sm text-muted-foreground sm:text-base">
-                  Not serious. Not on-chain. Just a vibe check for how much main-character
-                  energy you are radiating today.
+                  A quick, unserious vibe check for how much main-character energy you
+                  are radiating today.
                 </p>
               </div>
 
