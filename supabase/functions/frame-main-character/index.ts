@@ -46,21 +46,22 @@ function buildFrameHtml(opts: {
 
   const state = JSON.stringify({ handle: normalized }).replace(/"/g, "&quot;");
 
-  return `<!doctype html>
+ return `<!doctype html>
 <html>
   <head>
     <meta property="og:title" content="Main Character Energy" />
     <meta property="og:description" content="${subtitle}" />
     <meta property="og:image" content="${imageUrl}" />
 
-    <meta name="fc:frame" content="vNext" />
-    <meta name="fc:frame:image" content="${imageUrl}" />
-    <meta name="fc:frame:button:1" content="Scan again" />
-    <meta name="fc:frame:button:1:action" content="post" />
-    <meta name="fc:frame:input:text" content="Enter your Farcaster handle" />
-    <meta name="fc:frame:state" content="${state}" />
-    <meta name="fc:frame:post_url" content="${appUrl}/frame-main-character" />
+    <meta property="fc:frame" content="vNext" />
+    <meta property="fc:frame:image" content="${imageUrl}" />
+    <meta property="fc:frame:button:1" content="Scan again" />
+    <meta property="fc:frame:button:1:action" content="post" />
+    <meta property="fc:frame:input:text" content="Enter your Farcaster handle" />
+    <meta property="fc:frame:state" content="${state}" />
+    <meta property="fc:frame:post_url" content="${appUrl}/frame-main-character" />
   </head>
+
   <body></body>
 </html>`;
 }
